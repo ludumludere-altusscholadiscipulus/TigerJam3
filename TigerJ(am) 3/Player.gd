@@ -33,13 +33,15 @@ func get_input():
 	velocity.x = 0
 	if Input.is_action_pressed("walk_right"):
 		velocity.x += speed
-		ani.flip_h = true
+		if !check_wall():
+			ani.flip_h = true
 		if !moved:
 			moved = true
 			emit_signal("player_moved")
 	if Input.is_action_pressed("walk_left"):
 		velocity.x -= speed
-		ani.flip_h = false
+		if !check_wall():
+			ani.flip_h = false
 		if !moved:
 			moved = true
 			emit_signal("player_moved")
@@ -66,12 +68,22 @@ func _physics_process(delta):
 	if check_wall() and velocity.y > 30:
 		velocity.y = 30
 	
+	#Animation
 	if !rewind_time or !rerewind_time:
 		if velocity.x == 0:
-			ani.animation = "idle"
+			if check_wall() and !is_on_floor():
+				ani.animation = "wall"
+			elif !is_on_floor():
+				ani.animation = "jump"
+			else:
+				ani.animation = "idle"
 		else:
-			ani.animation = "walk"
+			if is_on_floor():
+				ani.animation = "walk"
+			else:
+				ani.animation = "jump"
 	
+	#Jump
 	if Input.is_action_just_pressed("jump"):
 		ispressed = true
 		if canstilljump:
@@ -92,8 +104,11 @@ func _physics_process(delta):
 		if !onair:
 			onair = true
 
-	if check_wall():
-		pass
+	if check_left_wall() and !is_on_floor() and !rewind_time and !rerewind_time:
+		ani.flip_h = true
+
+	if check_right_wall() and !is_on_floor() and !rewind_time and !rerewind_time:
+		ani.flip_h = false
 	
 	fall_damage_check()
 
@@ -105,8 +120,14 @@ func coyoteTime():
 	yield(get_tree().create_timer(0.15), "timeout")
 	canstilljump = false
 
+func check_left_wall():
+	return $Left_Raycast.is_colliding()
+
+func check_right_wall():
+	return $Right_Raycast.is_colliding()
+
 func check_wall():
-	return $Left_Raycast.is_colliding() or $Right_Raycast.is_colliding()
+	return check_left_wall() or check_right_wall()
 
 func jump():
 	is_jumping = true
@@ -173,6 +194,8 @@ func handle_rewind_function():
 				dir_number = 1
 			else:
 				dir_number = 0
+			
+			print(dir_number)
 			
 			recorded_data.push_front([ani.animation,global_position,ani.flip_h])
 		if(recorded_data.size() > rewind_length):
