@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/UpbeatMusic3Extra.wav-ef1c90610a2eb199e7b75b71b2ce675c.sample"
+
+[deps]
+
+source_file="res://Sound + Music/UpbeatMusic3Extra.wav"
+dest_files=[ "res://.import/UpbeatMusic3Extra.wav-ef1c90610a2eb199e7b75b71b2ce675c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

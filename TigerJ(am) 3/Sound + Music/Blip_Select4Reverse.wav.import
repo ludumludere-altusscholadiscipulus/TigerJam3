@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Blip_Select4Reverse.wav-c38130e50eda2171b3488a80b98d7406.sample"
+
+[deps]
+
+source_file="res://Sound + Music/Blip_Select4Reverse.wav"
+dest_files=[ "res://.import/Blip_Select4Reverse.wav-c38130e50eda2171b3488a80b98d7406.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
